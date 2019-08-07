@@ -1,0 +1,38 @@
+[
+  {
+    "_id": ObjectId("5d4a277be4f5931c515f794b"),
+    "likes": [],
+    "dislikes": [],
+    "name": "Andre Praeiro",
+    "user": "andrepraeiro",
+    "bio": null,
+    "avatar": "https://avatars3.githubusercontent.com/u/5289074?v=4",
+    "createdAt": ISODate("2019-08-07T01:20:59.073Z"),
+    "updatedAt": ISODate("2019-08-07T01:20:59.073Z"),
+    "__v": 0
+  },
+  {
+    "_id": ObjectId("5d4a2996a953b31e59269f7c"),
+    "likes": [],
+    "dislikes": [],
+    "name": "Diego Fernandes",
+    "user": "diego3g",
+    "bio": "CTO na @Rocketseat. Apaixonado por Javascript, ReactJS, React Native, NodeJS e todo ecossistema em torno dessas tecnologias.",
+    "avatar": "https://avatars2.githubusercontent.com/u/2254731?v=4",
+    "createdAt": ISODate("2019-08-07T01:29:58.751Z"),
+    "updatedAt": ISODate("2019-08-07T01:29:58.751Z"),
+    "__v": 0
+  },
+  {
+    "_id": ObjectId("5d4a2a80a953b31e59269f7d"),
+    "likes": [],
+    "dislikes": [],
+    "name": "Filipe Deschamps",
+    "user": "filipedeschamps",
+    "bio": "A nice guy.",
+    "avatar": "https://avatars0.githubusercontent.com/u/4248081?v=4",
+    "createdAt": ISODate("2019-08-07T01:33:52.754Z"),
+    "updatedAt": ISODate("2019-08-07T01:33:52.754Z"),
+    "__v": 0
+  }
+]
