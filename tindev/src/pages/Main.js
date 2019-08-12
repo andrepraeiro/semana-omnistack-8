@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import {
-    View,
-    SafeAreaView,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity
-} from 'react-native'
+import { View, SafeAreaView, Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+import io from 'socket.io-client'
 import api from '../services/api'
 
 import logo from '../assets/logo.png'
 import dislike from '../assets/dislike.png'
 import like from '../assets/like.png'
-
+import itsamatch from '../assets/itsamatch.png'
 
 export default function Main({ navigation }) {
     const id = navigation.getParam('user')
     const [users, setUsers] = useState([])
+    const [matchDev, setMatchDev] = useState(true)
     useEffect(() => {
         async function loadUsers() {
             const response = await api.get('/devs', {
@@ -29,6 +24,16 @@ export default function Main({ navigation }) {
             setUsers(response.data)
         }
         loadUsers()
+    }, [id])
+
+    useEffect(() => {
+        const socket = io('http://localhost:3333', {
+            query: { user: id }
+        })
+
+        socket.on('match', dev => {
+            setMatchDev(dev)
+        })
     }, [id])
 
     async function handleLike() {
@@ -58,19 +63,21 @@ export default function Main({ navigation }) {
                 <Image style={styles.logo} source={logo} />
             </TouchableOpacity>
             <View style={styles.cardsContainer}>
-                {users.length === 0
-                    ? <Text style={styles.empty}>Acabou :(</Text>
-                    : (users.map((user, index) => (
+                {users.length === 0 ? (
+                    <Text style={styles.empty}>Acabou :(</Text>
+                ) : (
+                    users.map((user, index) => (
                         <View key={user._id} style={[styles.card, { zIndex: users.length - index }]}>
                             <Image style={styles.avatar} source={{ uri: user.avatar }} />
                             <View style={styles.footer}>
                                 <Text style={styles.name}>{user.nome}</Text>
-                                <Text style={styles.bio} numberOfLines={3}>{user.bio}</Text>
+                                <Text style={styles.bio} numberOfLines={3}>
+                                    {user.bio}
+                                </Text>
                             </View>
                         </View>
                     ))
-                    )
-                }
+                )}
             </View>
             {users.length > 0 && (
                 <View style={styles.buttonsContainer}>
@@ -79,6 +86,27 @@ export default function Main({ navigation }) {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={handleLike}>
                         <Image source={like} />
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            {matchDev && (
+                <View style={styles.matchContainer}>
+                    <Image source={itsamatch} />
+                    <Image
+                        style={styles.matchAvatar}
+                        source={{ uri: 'https://avatars1.githubusercontent.com/u/105278?v=4' }}
+                    />
+                    <Text style={styles.matchName}>André Praeiro</Text>
+                    <Text style={styles.matchBio}>
+                        "(the core of functional languages) was not invented, but discovered…this is my invitation to
+                        you to use (languages) that are discovered." –Philip Wadler Lorem ipsum dolor sit amet
+                        consectetur adipisicing elit. Distinctio modi repudiandae provident magni perferendis amet unde
+                        ipsa soluta molestiae aperiam eius facere molestias, harum excepturi itaque possimus atque
+                        voluptatibus architecto!
+                    </Text>
+                    <TouchableOpacity onPress={() => setMatchDev(null)}>
+                        <Text style={styles.closeMatch}>FECHAR</Text>
                     </TouchableOpacity>
                 </View>
             )}
@@ -168,8 +196,4 @@ const styles = StyleSheet.create({
             height: 2
         }
     }
-
-
 })
-
-

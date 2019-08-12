@@ -25,7 +25,6 @@ module.exports = {
     },
 
     async index(req, res) {
-        console.log(req.headers)
         const { user } = req.headers
         const loggedDev = await Dev.findById(user)
         const users = await Dev.find({
@@ -41,7 +40,7 @@ module.exports = {
     async delAll(req, res) {
         console.log('Deleting all...')
         const response = await Dev.deleteMany({})
-        console.log(response)
+        console.log('All deleted')
         return res.json(response)
     }
 }
