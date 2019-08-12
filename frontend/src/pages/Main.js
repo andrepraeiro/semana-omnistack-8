@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import io from 'socket.io-client'
+
 import './Main.css'
 
 import api from '../services/api'
@@ -22,6 +24,10 @@ export default function Main({ match }) {
     loadUsers()
   }, [match.params.id])
 
+  useEffect(() => {
+    const socket = io('http://localhost:3333')
+  }, [match.params.id])
+  
   async function handleLike(id) {
     await api.post(`/devs/${id}/likes`, null, {
       headers: { user: match.params.id }
