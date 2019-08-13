@@ -12,7 +12,7 @@ import itsamatch from '../assets/itsamatch.png'
 export default function Main({ navigation }) {
     const id = navigation.getParam('user')
     const [users, setUsers] = useState([])
-    const [matchDev, setMatchDev] = useState(true)
+    const [matchDev, setMatchDev] = useState(null)
     useEffect(() => {
         async function loadUsers() {
             const response = await api.get('/devs', {
@@ -92,18 +92,14 @@ export default function Main({ navigation }) {
 
             {matchDev && (
                 <View style={styles.matchContainer}>
-                    <Image source={itsamatch} />
+                    <Image style={styles.matchImage} source={itsamatch} />
                     <Image
                         style={styles.matchAvatar}
-                        source={{ uri: 'https://avatars1.githubusercontent.com/u/105278?v=4' }}
+                        source={{ uri: matchDev.avatar}}
                     />
-                    <Text style={styles.matchName}>André Praeiro</Text>
+                    <Text style={styles.matchName}>{matchDev.name}</Text>
                     <Text style={styles.matchBio}>
-                        "(the core of functional languages) was not invented, but discovered…this is my invitation to
-                        you to use (languages) that are discovered." –Philip Wadler Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Distinctio modi repudiandae provident magni perferendis amet unde
-                        ipsa soluta molestiae aperiam eius facere molestias, harum excepturi itaque possimus atque
-                        voluptatibus architecto!
+                        {matchDev.bio}
                     </Text>
                     <TouchableOpacity onPress={() => setMatchDev(null)}>
                         <Text style={styles.closeMatch}>FECHAR</Text>
@@ -195,5 +191,50 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2
         }
+    },
+
+     matchContainer: {
+         ...StyleSheet.absoluteFillObject,
+         backgroundColor: 'rgba(0, 0, 0, 0.8)',
+         justifyContent: 'center',
+         alignItems: 'center'                
+     },
+
+    matchImage: {
+        height: 60,
+        resizeMode: 'contain'
+    },
+
+    matchAvatar: {
+        width: 160,
+        height: 168,
+        borderRadius: 88,
+        borderWidth: 5,
+        borderColor: '#fff',
+        marginVertical: 30
+    },
+
+    matchName: {
+        fontSize: 26,
+        fontWeight: 'bold',
+        color: '#fff',
+    },
+
+    matchBio: {
+        marginTop: 10,
+        fontSize: 16,
+        color: 'rgba(255,255,255,0.8)',
+        lineHeight: 24,
+        textAlign: 'center',
+        paddingHorizontal: 30,
+
+    },
+
+    closeMatch: {
+        fontSize: 16,
+        color: 'rgba(255,255,255,0.8)',
+        textAlign: 'center',
+        marginTop: 30,
+        fontWeight: 'bold'
     }
 })
